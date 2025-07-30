@@ -3,15 +3,14 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { Navigation } from "@/components/navigation"
-import { Footer } from "@/components/footer"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "StarNet - Fast & Reliable WiFi Access",
+  title: "StarNet WiFi - Vouchers za Intaneti za Haraka",
   description:
-    "Get instant internet access with our affordable voucher system. High-speed connectivity for your home, office, or on-the-go needs.",
-  keywords: "wifi, internet, voucher, tanzania, starnet, connectivity, broadband",
+    "Pata vouchers za WiFi kwa bei nafuu. Masaa 8 - TZS 500, Siku nzima - TZS 1,000, Wiki nzima - TZS 5,000. Piga +255 618 903 516",
+  keywords: "wifi, voucher, tanzania, starnet, intaneti, free wifi",
     generator: 'v0.dev'
 }
 
@@ -21,11 +20,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="sw">
       <body className={inter.className}>
         <Navigation />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
+        {children}
       </body>
     </html>
   )

@@ -1,92 +1,100 @@
 "use client"
-
-import { useState } from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { Wifi, Menu, X } from "lucide-react"
+import { useState } from "react"
+import Image from "next/image"
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
-  const pathname = usePathname()
-
-  const navItems = [
-    { href: "/", label: "Home" },
-    { href: "/services", label: "Services" },
-    { href: "/about", label: "About" },
-    { href: "/help", label: "Help" },
-    { href: "/contact", label: "Contact" },
-  ]
+  const [logoError, setLogoError] = useState(false)
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex justify-between items-center py-4">
+    <nav className="bg-white shadow-sm border-b sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <Wifi className="h-8 w-8 text-blue-600" />
-            <span className="text-2xl font-bold">StarNet</span>
-          </Link>
+          <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-3">
+              {!logoError ? (
+                <Image
+                  src="https://res.cloudinary.com/dtybdu8su/image/upload/v1753860681/StarNet__2_-removebg-preview_1_sp67a7.png"
+                  alt="StarNet Logo"
+                  width={180}
+                  height={60}
+                  className="h-12 w-auto max-w-[180px]"
+                  onError={() => setLogoError(true)}
+                  priority
+                />
+              ) : (
+                <div className="flex items-center space-x-2">
+                  <Wifi className="h-8 w-8 text-green-600" />
+                  <span className="text-2xl font-bold text-gray-900">StarNet</span>
+                </div>
+              )}
+            </div>
+            <Badge className="bg-green-100 text-green-800 border-green-200 hidden sm:inline-flex">
+              WiFi: Free WiFi
+            </Badge>
+          </div>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex space-x-6">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  pathname === item.href ? "bg-blue-100 text-blue-700" : "text-gray-700 hover:text-blue-600"
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-
-          {/* CTA Buttons */}
-          <div className="hidden md:flex items-center space-x-3">
-            <Button asChild variant="outline" size="sm">
-              <Link href="/login">Login</Link>
-            </Button>
-            <Button asChild size="sm">
-              <Link href="/buy-voucher">Buy Voucher</Link>
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
+            <button
+              onClick={() => document.getElementById("bundles")?.scrollIntoView({ behavior: "smooth" })}
+              className="text-gray-700 hover:text-green-600 transition-colors font-medium"
+            >
+              Bei za Vouchers
+            </button>
+            <button
+              onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+              className="text-gray-700 hover:text-green-600 transition-colors font-medium"
+            >
+              Pata Voucher
+            </button>
+            <Button size="sm" className="bg-green-600 hover:bg-green-700">
+              <a href="tel:+255618903516">Piga Simu</a>
             </Button>
           </div>
 
           {/* Mobile menu button */}
-          <Button variant="ghost" size="sm" className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
-            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </Button>
+          <div className="md:hidden">
+            <button onClick={() => setIsOpen(!isOpen)} className="text-gray-700 hover:text-green-600 p-2">
+              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
         </div>
 
-        {/* Mobile Nav */}
+        {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden border-t py-4">
-            <nav className="space-y-2">
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`block px-3 py-2 rounded-md text-sm font-medium ${
-                    pathname === item.href ? "bg-blue-100 text-blue-700" : "text-gray-700"
-                  }`}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              ))}
-              <div className="pt-4 space-y-2">
-                <Button asChild variant="outline" className="w-full bg-transparent">
-                  <Link href="/login">Login</Link>
-                </Button>
-                <Button asChild className="w-full">
-                  <Link href="/buy-voucher">Buy Voucher</Link>
-                </Button>
-              </div>
-            </nav>
+          <div className="md:hidden py-4 border-t">
+            <div className="flex flex-col space-y-4">
+              <Badge className="bg-green-100 text-green-800 border-green-200 w-fit">WiFi: Free WiFi</Badge>
+              <button
+                onClick={() => {
+                  document.getElementById("bundles")?.scrollIntoView({ behavior: "smooth" })
+                  setIsOpen(false)
+                }}
+                className="text-left text-gray-700 hover:text-green-600 transition-colors font-medium"
+              >
+                Bei za Vouchers
+              </button>
+              <button
+                onClick={() => {
+                  document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })
+                  setIsOpen(false)
+                }}
+                className="text-left text-gray-700 hover:text-green-600 transition-colors font-medium"
+              >
+                Pata Voucher
+              </button>
+              <Button size="sm" className="w-fit bg-green-600 hover:bg-green-700">
+                <a href="tel:+255618903516">Piga Simu</a>
+              </Button>
+            </div>
           </div>
         )}
       </div>
-    </header>
+    </nav>
   )
 }
